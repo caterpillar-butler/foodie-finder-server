@@ -1,0 +1,14 @@
+services:
+  mysql:
+    image: 'mysql:latest'
+    container_name: mysql-container
+    environment:
+      - 'MYSQL_DATABASE=futcher'
+      - 'MYSQL_PASSWORD=butler'
+      - 'MYSQL_ROOT_PASSWORD=butler'
+      - 'MYSQL_USER=butler'
+    ports:
+      - 43306:3306
+    command:
+      - '--character-set-server=utf8mb4'
+      - '--collation-server=utf8mb4_unicode_ci'
