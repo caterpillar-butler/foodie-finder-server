@@ -27,23 +27,23 @@ public class UserController {
     userMapper.insertUser(user);
   }
 
-  @GetMapping("/{id}")
+  @GetMapping("/get/{id}")
   public User getUserById(@PathVariable Long id) {
     return userMapper.selectUserById(id);
   }
 
-  @GetMapping
+  @GetMapping("/getAll")
   public List<User> getAllUsers() {
     return userMapper.selectAllUsers();
   }
 
-  @PutMapping("/{id}")
+  @PutMapping("/put/{id}")
   public void updateUser(@PathVariable Long id, @RequestBody User user) {
     user.setId(id);
     userMapper.updateUser(user);
   }
 
-  @DeleteMapping("/{id}")
+  @DeleteMapping("/delete/{id}")
   public void deleteUser(@PathVariable Long id) {
     userMapper.deleteUser(id);
   }
