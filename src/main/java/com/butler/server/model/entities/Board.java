@@ -21,35 +21,23 @@ import lombok.Setter;
 @NoArgsConstructor
 @Builder
 @Entity
-public class User {
+public class Board {
   @Id
   @GeneratedValue(strategy = GenerationType.IDENTITY)
   private Long id;
 
-  private String email;
-  private String name;
-  private String password;
-  private String phoneNumber;
-  private String profileImage;
-  private String introduce;
+  private String title;
+  private String contents;
+  private String createdAt;
+  private String modifiedAt;
+  private int likes;
+  private String images;
+  private String hashtags;
 
   @ManyToOne
-  @JoinColumn(name = "grade_id")
-  private Grade grade;
+  @JoinColumn(name = "user_id")
+  private User user;
 
-  @ManyToOne
-  @JoinColumn(name = "role_id")
-  private Role role;
-
-  @OneToMany(mappedBy = "user")
-  private List<Inquiry> inquiries;
-
-  @OneToMany(mappedBy = "user")
-  private List<Reply> replies;
-
-  @OneToMany(mappedBy = "user")
+  @OneToMany(mappedBy = "board")
   private List<Comment> comments;
-
-  @OneToMany(mappedBy = "user")
-  private List<Board> boards;
 }
