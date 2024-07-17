@@ -7,5 +7,4 @@ import com.butler.server.model.entities.User;
 
 @Repository
 public interface UserRepository extends JpaRepository<User, Long> {
-
 }
