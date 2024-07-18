@@ -29,9 +29,11 @@ public class User {
   private String email;
   private String name;
   private String password;
-  private String phoneNumber;
+  private String phone;
   private String profileImage;
   private String introduce;
+  private String birth;
+  private Boolean gender;
 
   @ManyToOne
   @JoinColumn(name = "grade_id")
