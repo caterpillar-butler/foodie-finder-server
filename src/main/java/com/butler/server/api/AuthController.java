@@ -24,7 +24,7 @@ public class AuthController {
 
   @PostMapping("/register")
   public ResponseEntity<String> createUser(@RequestBody UserDto userDto) {
-    log.info(userDto.getEmail());
+    log.info(userDto.toString());
 
     if (userDto.getEmail() == null || userDto.getPassword() == null) {
       return new ResponseEntity<>("Email and Password are required", HttpStatus.BAD_REQUEST);
