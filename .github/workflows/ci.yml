@@ -28,6 +28,9 @@ jobs:
               restore-keys: |
                  ${{ runner.os }}-gradle-
 
+         - name: Convert gradlew to Unix format
+           run: sed -i '' 's/\r$//' ./gradlew
+
          - name: Build with Gradle
            run: ./gradlew build -x test
 
