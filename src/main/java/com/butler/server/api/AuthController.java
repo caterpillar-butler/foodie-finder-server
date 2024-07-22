@@ -26,7 +26,7 @@ public class AuthController {
   public ResponseEntity<String> createUser(@RequestBody UserDto userDto) {
     log.info(userDto.toString());
 
-    if (userDto.getEmail() == null || userDto.getPassword() == null) {
+    if (userDto.getEmail() == "" || userDto.getPassword() == "") {
       return new ResponseEntity<>("Email and Password are required", HttpStatus.BAD_REQUEST);
     }
     userService.createUser(userDto);
