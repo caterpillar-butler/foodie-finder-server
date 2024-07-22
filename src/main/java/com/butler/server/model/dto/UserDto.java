@@ -6,10 +6,10 @@ import lombok.Setter;
 @Getter
 @Setter
 public class UserDto {
-  private Long id;
-  private String username;
-  private String password;
-  private String socialSecurityNumber;
+  private String email;
   private String name;
-  private String phoneNumber;
+  private String password;
+  private String phone;
+  private String birth;
+  private Boolean gender;
 }
