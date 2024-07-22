@@ -28,8 +28,11 @@ jobs:
               restore-keys: |
                  ${{ runner.os }}-gradle-
 
+         - name: Set permissions for gradlew
+           run: chmod +x ./gradlew
+
          - name: Convert gradlew to Unix format
-           run: sed -i '' 's/\r$//' ./gradlew
+           run: sed -i 's/\r$//' ./gradlew
 
          - name: Build with Gradle
            run: ./gradlew build -x test
