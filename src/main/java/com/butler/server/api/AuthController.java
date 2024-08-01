@@ -8,11 +8,13 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.butler.server.model.dto.MailVerificationDto;
+import com.butler.server.model.dto.PhoneVerificationDto;
 import com.butler.server.model.dto.UserDto;
 import com.butler.server.service.UserService;
+import com.butler.server.service.VerificationService;
 
 import lombok.extern.slf4j.Slf4j;
-
 
 @Slf4j
 @RestController
@@ -22,14 +24,55 @@ public class AuthController {
   @Autowired
   private UserService userService;
 
+  @Autowired
+  private VerificationService verificationService;
+
   @PostMapping("/register")
   public ResponseEntity<String> createUser(@RequestBody UserDto userDto) {
-    log.info(userDto.toString());
+    log.info("AuthController: " + userDto.toString());
 
-    if (userDto.getEmail() == "" || userDto.getPassword() == "") {
-      return new ResponseEntity<>("Email and Password are required", HttpStatus.BAD_REQUEST);
-    }
     userService.createUser(userDto);
-    return new ResponseEntity<>("User created successfully", HttpStatus.CREATED);
+    return new ResponseEntity<>("User registered successfully", HttpStatus.OK);
   }
+
+  @PostMapping("/email-verification")
+  public ResponseEntity<String> generateMailVerificationCode(@RequestBody MailVerificationDto mailVerificationDto) {
+
+    try {
+        if (userService.isEmailExist(mailVerificationDto.getEmail())) {
+            return new ResponseEntity<>("Email already exists", HttpStatus.BAD_REQUEST);
+        }
+        verificationService.sendEmailVerificationCode(mailVerificationDto.getEmail());
+        return new ResponseEntity<>("Email verification code sent", HttpStatus.OK);
+    } catch (Exception e) {
+        log.error("Error during email verification process", e);
+        return new ResponseEntity<>("An error occurred while sending the email verification code", HttpStatus.INTERNAL_SERVER_ERROR);
+    }
+  }
+
+  @PostMapping("/email-verification/code")
+  public ResponseEntity<String> verifyEmailCode(@RequestBody MailVerificationDto mailVerificationDto) {
+    boolean isValid = verificationService.verifyEmailCode(mailVerificationDto.getEmail(), mailVerificationDto.getCode());
+    if (isValid) {
+        return new ResponseEntity<>("Verification successful", HttpStatus.OK);
+    } else {
+        return new ResponseEntity<>("Invalid verification code", HttpStatus.BAD_REQUEST);
+    }
+  }
+
+  @PostMapping("/phone-verification")
+  public ResponseEntity<String> generatePhoneVerificationCode(@RequestBody PhoneVerificationDto phoneVerificationDto) {
+    // verificationService.requestPhoneVerification(phoneVerificationDto.getPhone());
+
+    return new ResponseEntity<>("Phone verification code sent", HttpStatus.OK);
+  }
+
+  @PostMapping("/phone-verification/code")
+  public ResponseEntity<String> verifyPhoneCode(@RequestBody PhoneVerificationDto phoneVerificationDto) {
+    // verificationService.verifyPhoneCode(phoneVerificationDto.getPhone(),
+    // phoneVerificationDto.getCode());
+
+    return new ResponseEntity<>("Verification successful", HttpStatus.OK);
+  }
+
 }

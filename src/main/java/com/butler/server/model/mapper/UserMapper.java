@@ -47,6 +47,10 @@ public interface UserMapper {
   @Delete("DELETE FROM user WHERE id = #{id}")
   void deleteUser(Long id);
 
+  // 이메일 존재 여부 확인
+  @Select("SELECT COUNT(1) > 0 FROM user WHERE email = #{email} LIMIT 1")
+  boolean isEmailExist(String email);
+
   // ------ xml ------
 
   void insertUserXml(User user);
@@ -58,4 +62,5 @@ public interface UserMapper {
   void updateUserXml(User user);
 
   void deleteUserXml(Long id);
+
 }
