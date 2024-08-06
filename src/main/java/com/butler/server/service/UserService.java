@@ -31,4 +31,8 @@ public class UserService {
     public boolean isEmailExist(String email) {
         return userMapper.isEmailExist(email);
     }
+
+    public boolean isPhoneExist(String phone) {
+        return userMapper.isPhoneExist(phone);
+    }
 }

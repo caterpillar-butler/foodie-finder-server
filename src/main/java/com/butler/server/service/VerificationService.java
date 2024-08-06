@@ -9,6 +9,10 @@ import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.stereotype.Service;
 
+import com.amazonaws.services.sns.AmazonSNS;
+import com.amazonaws.services.sns.model.PublishRequest;
+import com.amazonaws.services.sns.model.PublishResult;
+
 import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
@@ -21,7 +25,10 @@ public class VerificationService {
     @Autowired
     private RedisTemplate<String, String> redisTemplate;
 
-    private static final long VERIFICATION_CODE_TTL = 10; // 10분
+    @Autowired
+    private AmazonSNS amazonSNS;
+
+    private static final long VERIFICATION_CODE_TTL = 5; // 5분
 
     public void sendEmailVerificationCode(String email) {
         String verificationCode = generateRandomCode();
@@ -42,5 +49,24 @@ public class VerificationService {
         Random random = new Random();
         int code = 100000 + random.nextInt(900000);
         return String.valueOf(code);
+    }
+
+    public void sendPhoneVerificationCode(String phone) {
+        String verificationCode = generateRandomCode();
+        redisTemplate.opsForValue().set(phone, verificationCode, VERIFICATION_CODE_TTL, TimeUnit.MINUTES);
+
+        // SNS를 사용하여 SMS 전송
+        String message = "Your verification code is: " + verificationCode;
+        PublishRequest publishRequest = new PublishRequest()
+                .withMessage(message)
+                .withPhoneNumber(phone);
+        PublishResult publishResult = amazonSNS.publish(publishRequest);
+
+        log.info("SMS sent to {}: {}", phone, publishResult.getMessageId());
+    }
+
+    public boolean verifyPhoneCode(String phone, String code) {
+        String storedCode = redisTemplate.opsForValue().get(phone);
+        return storedCode != null && storedCode.equals(code);
     }
 }

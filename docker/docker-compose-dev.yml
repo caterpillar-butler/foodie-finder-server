@@ -17,4 +17,7 @@ services:
       image: 'redis:latest'
       container_name: redis-container
       ports:
-         - 6379:6379
+         - 46379:6379
+      environment:
+         - REDIS_PASSWORD=${REDIS_PASSWORD}
+      command: ['redis-server', '--requirepass', '${REDIS_PASSWORD}']
