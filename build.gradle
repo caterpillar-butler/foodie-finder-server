@@ -29,6 +29,11 @@ dependencies {
 	implementation 'org.mybatis.spring.boot:mybatis-spring-boot-starter:3.0.3' // mybatis
 	implementation 'org.springframework.boot:spring-boot-starter-data-jpa' // JPA
 	implementation 'org.springframework.boot:spring-boot-starter-security' // spring security
+	implementation 'org.springframework.boot:spring-boot-starter-mail' // mail
+	implementation 'org.springframework.boot:spring-boot-starter-data-redis' // redis
+	implementation 'org.springframework.boot:spring-boot-starter-oauth2-resource-server' // resource server
+	implementation 'org.springframework.boot:spring-boot-starter-oauth2-authorization-server' // authorization server
+	implementation 'org.springframework.security:spring-security-oauth2-jose' // support jwt
 	compileOnly 'org.projectlombok:lombok' // lombok
 	developmentOnly 'org.springframework.boot:spring-boot-devtools' // dev
 	developmentOnly 'org.springframework.boot:spring-boot-docker-compose' // docker compose

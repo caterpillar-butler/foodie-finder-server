@@ -7,9 +7,14 @@ import lombok.Setter;
 @Setter
 public class UserDto {
   private String email;
-  private String name;
   private String password;
   private String phone;
   private String birth;
   private Boolean gender;
+
+  @Override
+  public String toString() {
+    return "UserDto [email=" + email + ", password=" + password + ", phone=" + phone + ", birth=" + birth + ", gender="
+        + gender + "]";
+  }
 }
