@@ -30,8 +30,8 @@ public class VerificationService {
      */
     public void sendEmailVerificationCode(String email) {
         String verificationCode = generateRandomCode();
-        redisTemplate.opsForValue().set(email, verificationCode, VERIFICATION_CODE_TTL, TimeUnit.MINUTES); // 코드 저장 및
-                                                                                                           // TTL 설정
+        // 코드 저장 및 TTL 설정
+        redisTemplate.opsForValue().set(email, verificationCode, VERIFICATION_CODE_TTL, TimeUnit.MINUTES);
         SimpleMailMessage message = new SimpleMailMessage();
         message.setTo(email);
         message.setSubject("Email Verification Code");
